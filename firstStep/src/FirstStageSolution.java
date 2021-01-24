@@ -1,6 +1,10 @@
+import java.io.IOException;
+import java.math.BigInteger;
+import java.util.Scanner;
+
 public class FirstStageSolution {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
         System.out.println(function1(5., 3., 4.));
         System.out.println(function2(5., 3., 4.));
         System.out.println(function3(5., 3.));
@@ -12,7 +16,14 @@ public class FirstStageSolution {
         System.out.println(threePoints(1., 2., 3., 4., 5., 6.));
         System.out.println(hole(1., 2., 3., 4., 5.));
         System.out.println(function5(6.));
-
+        //System.out.println(sum());
+        sumOnSegment(0., 4., 0.5);
+        System.out.println(sumOfSquares());
+        System.out.println(multiplicationOfSquares());
+        System.out.println(sumOfRow(0.1));
+        symbolsInComputer();
+        //dividers();
+        findCommonFigures(123, 34);
 
     }
 
@@ -97,6 +108,94 @@ public class FirstStageSolution {
             return Math.pow(x, 2) - 3*x + 9;
         } else {
             return 1 / (Math.pow(x, 3) + 6);
+        }
+    }
+
+    public static int sum() throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        int x = scanner.nextInt();
+        if (x <= 0){
+            throw new IllegalArgumentException("x должен быть положительным");
+        }
+        int sum = 0;
+        for(int i = 1; i <= x; i++){
+            sum += i;
+        }
+        return sum;
+    }
+
+    public static void sumOnSegment(double a, double b, double h){
+        for (double i = a; i <= b; i += h){
+            if (i > 2){
+                System.out.println("x = " + i + ", y = " + i);
+            } else {
+                System.out.println("x = " + i + ", y = " + -i);
+            }
+        }
+    }
+
+    public static int sumOfSquares(){
+        int sum = 0;
+        for (int i = 1; i <= 100; i++){
+            sum += i*i;
+        }
+        return sum;
+    }
+
+    public static BigInteger multiplicationOfSquares(){
+        BigInteger multiplication = BigInteger.valueOf(1);
+        for (int i = 1; i <= 200; i++){
+            multiplication = multiplication.multiply(BigInteger.valueOf((long) i*i));
+        }
+        return multiplication;
+    }
+
+    public static double sumOfRow(double e){
+        double sum = 0;
+        double temp;
+        for (int i = 1; ; i++){
+            temp = Math.abs((1 / Math.pow(2, i)) + (1 / Math.pow(3, i)));
+            if (Math.abs(temp) >= e){
+                sum += temp;
+            }
+            if (temp == 0.){
+                break;
+            }
+        }
+        return sum;
+    }
+
+    public static void symbolsInComputer(){
+        for (int i = 0; i <= 255; i++){
+            System.out.println(i + " - " + (char) i);
+        }
+    }
+
+    public static void dividers(){
+        Scanner scanner = new Scanner(System.in);
+        int m = scanner.nextInt();
+        int n = scanner.nextInt();
+        if (m <= 0 || n <= 0){
+            throw new IllegalArgumentException("Значения должны быть натуральными");
+        }
+        for (int i = m; i <= n; i++){
+            for (int j = 2; j < i; j++){
+                if (i % j == 0){
+                    System.out.println("Делитель " + i + ": " + j);
+                }
+            }
+        }
+    }
+
+    public static void findCommonFigures(int m, int n){
+        for (int i = m; i > 0; i /= 10){
+            int tempI = i % 10;
+            for (int j = n; j > 0; j /= 10){
+                int tempJ = j % 10;
+                if (tempI == tempJ){
+                    System.out.println("Общая цифра: " + tempI);
+                }
+            }
         }
     }
 }
