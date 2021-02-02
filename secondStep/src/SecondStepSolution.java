@@ -5,10 +5,22 @@ public class SecondStepSolution {
 
     public static void main(String[] args){
         System.out.println(sum(10, 3));
+        line();
         System.out.println(changes(new double[]{0.1, 2, 3, 4.5}, 2));
+        line();
         countEl(new double[]{1, 2, 3, -2, -3.5, 0, 0, -3});
+        line();
         changeMaxMin(new double[]{-1, 0, 3, 10, -20.5, 2, 1.3, 100});
+        line();
         print(new int[]{1, 2, 22, 33, 4});
+        line();
+        System.out.println(max(new double[]{11, -3, 8, 4, 6, 12}));
+        line();
+        System.out.println(Arrays.toString(removeMinEl(new int[]{1, 1, 2, 3, 1})));
+        line();
+        mostRepeating(new int[]{0, 1, 2, 2, 1, 3, 3, 3, 4, 4, 4, 4});
+        line();
+        compress(new int[]{1, 2, 3, 4, 5});
     }
 
     public static int sum(int n, int k){
@@ -91,6 +103,91 @@ public class SecondStepSolution {
                 System.out.println(array[i]);
             }
         }
+    }
+
+    public static double max(double[] array){
+        if (array.length % 2 != 0){
+            throw new IllegalArgumentException("Количество элементов должно быть 2n, т. е. четным");
+        }
+        double max = array[0];
+        for (int i = 0, j = array.length - 1; i < j; i++, j--){
+            if (max < array[i] + array[j]){
+                max = array[i] + array[j];
+            }
+        }
+        return max;
+    }
+
+    public static int[] removeMinEl(int[] array){
+        if (array.length <= 1){
+            throw new IllegalArgumentException("Количество элементов должно быть больше 1");
+        }
+        int numberOfMin = 0;
+        int min = array[0];
+        for (int i : array){
+            if (i < min){
+                min = i;
+            }
+        }
+        for (int i : array){
+            if (i == min){
+                numberOfMin++;
+            }
+        }
+        int[] newArray = new int[array.length - numberOfMin];
+        for (int i = 0, j = 0; i < array.length; i++){
+            if (array[i] != min){
+                newArray[j++] = array[i];
+            }
+        }
+        return newArray;
+    }
+
+    public static void mostRepeating(int[] array) {
+        int[][] temp = new int[array.length][2];
+        for (int i = 0; i < array.length; i++) {
+            temp[i][0] = array[i];
+            for (int j = 0; j < array.length; j++){
+                if (array[i] == array[j]) {
+                    temp[i][1]++;
+                }
+            }
+        }
+        int maxIndex = 0;
+        for (int i = 0; i < array.length; i++){
+            if (temp[i][1] > temp[maxIndex][1]){
+                maxIndex = i;
+            }
+        }
+        int[] allMax = new int[array.length];
+        for (int i = 0, j = 0; i < array.length; i++){
+            if (temp[i][1] == temp[maxIndex][1]){
+                allMax[j++] = temp[i][0];
+            } else {
+                allMax[j++] = Integer.MAX_VALUE;
+            }
+        }
+        int min = allMax[0];
+        for (int i : allMax) {
+            if (i < min) {
+                min = i;
+            }
+        }
+        System.out.println(min);
+    }
+
+    public static void compress(int[] array){
+        if (array.length <= 1){
+            throw new IllegalArgumentException("Количество элементов должно быть больше 1");
+        }
+        for (int i = 1; i < array.length; i += 2){
+            array[i] = 0;
+        }
+        System.out.println(Arrays.toString(array));
+    }
+
+    public static void line(){
+        System.out.println("----------------------------------------------");
     }
 
 }
