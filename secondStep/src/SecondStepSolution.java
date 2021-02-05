@@ -21,6 +21,16 @@ public class SecondStepSolution {
         mostRepeating(new int[]{0, 1, 2, 2, 1, 3, 3, 3, 4, 4, 4, 4});
         line();
         compress(new int[]{1, 2, 3, 4, 5});
+        line();
+        oddColumns(new double[][]{{3, 2, 10},{5, 6, 3},{1, 4, 9}});
+        line();
+        diagonal(new double[][]{{3, 2, 10},{5, 6, 3},{1, 4, 9}});
+        line();
+        printKP(new double[][]{{3, 2, 10},{5, 6, 3},{1, 4, 9}}, 2, 3);
+        line();
+        createSquareMatrix(6);
+        line();
+        createAnotherSquareMatrix(8);
     }
 
     public static int sum(int n, int k){
@@ -184,6 +194,97 @@ public class SecondStepSolution {
             array[i] = 0;
         }
         System.out.println(Arrays.toString(array));
+    }
+
+    public static void oddColumns(double[][] matrix){
+        int lineSize = matrix[0].length;
+        for (double[] line : matrix){
+            if (lineSize != line.length){
+                throw new IllegalArgumentException("Некорректная матрица");
+            }
+        }
+        for (int j = 0; j < matrix[0].length; j += 2){
+                if (matrix[0][j] > matrix[matrix.length - 1][j]){
+                    System.out.println("Колонка: ");
+                    for (int i = 0; i < matrix.length; i++){
+                        System.out.println(matrix[i][j]);
+                    }
+                }
+        }
+    }
+
+    public static void diagonal(double[][] squareMatrix){
+        for (double[] line : squareMatrix){
+            if (squareMatrix.length != line.length){
+                throw new IllegalArgumentException("Матрица должна быть квадратной");
+            }
+        }
+        for (int i = 0, j = 0; i < squareMatrix.length; i++, j++){
+            if (i == j){
+                System.out.println(squareMatrix[i][j]);
+            }
+        }
+    }
+
+    public static void printKP(double[][] matrix, int k, int p) {
+        int lineSize = matrix[0].length;
+        for (double[] line : matrix) {
+            if (lineSize != line.length) {
+                throw new IllegalArgumentException("Некорректная матрица");
+            }
+        }
+        for (int i = 0; i < matrix[k].length; i++) {
+            System.out.print(matrix[k - 1][i] + " ");
+        }
+        System.out.println("\n");
+        for (int i = 0; i < matrix.length; i++) {
+            System.out.println(matrix[i][p - 1] + " ");
+        }
+    }
+
+    public static void createSquareMatrix(int n){
+        if (n % 2 != 0){
+            throw new IllegalArgumentException("n должно быть четным и больше 3");
+        }
+        double[][] matrix = new double[n][n];
+        for (int i = 0; i < n; i++){
+            for (int j = 0; j < n; j++){
+                if (i % 2 == 0){
+                    matrix[i][j] = j + 1;
+                } else {
+                    matrix[i][j] = n - j;
+                }
+            }
+        }
+        for (int i = 0; i < n; i++){
+            for (int j = 0; j < n; j++){
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println("");
+        }
+    }
+
+    public static void createAnotherSquareMatrix(int n){
+        if (n % 2 != 0){
+            throw new IllegalArgumentException("n должно быть четным и больше 5");
+        }
+        int zeros = 0;
+        int[][] matrix = new int[n][n];
+        for (int i = 0; i < n; i++){
+            zeros = 0;
+            for (int j = 0; j < n; j++){
+                if (j == n - i){
+                    zeros = i + 1;
+                }
+                matrix[i][j] = i + 1 - zeros;
+            }
+        }
+        for (int i = 0; i < n; i++){
+            for (int j = 0; j < n; j++){
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println("");
+        }
     }
 
     public static void line(){
