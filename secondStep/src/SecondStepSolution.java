@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 
 public class SecondStepSolution {
 
@@ -31,6 +32,22 @@ public class SecondStepSolution {
         createSquareMatrix(6);
         line();
         createAnotherSquareMatrix(8);
+        line();
+        //changeColumns();
+        line();
+        sumOfColumn(new double[][]{{1, 2, 3}, {2, 2, 4}, {5, 2, 0}});
+        line();
+        positiveElOnDiagonal();
+        line();
+        randomMatrix();
+        line();
+        sortRows();
+        line();
+        sortColumns();
+        line();
+        createRandomOneZeroMatrix();
+        line();
+        changeOnMax();
     }
 
     public static int sum(int n, int k){
@@ -281,6 +298,213 @@ public class SecondStepSolution {
         }
         for (int i = 0; i < n; i++){
             for (int j = 0; j < n; j++){
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println("");
+        }
+    }
+
+    public static void changeColumns(){
+        int[][] matrix = new int[][]{{1, 2, 3},{2, 3, 6},{7, 8, 9}};
+        for (int i = 0; i < matrix.length; i++){
+            for (int j = 0; j < matrix[i].length; j++){
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println("");
+        }
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введите номер первого столбца");
+        int firstColumn = scanner.nextInt();
+        System.out.println("Введите номер второго столбца");
+        int secondColumn = scanner.nextInt();
+        for (int i = 0; i < matrix.length; i++){
+            int temp = matrix[i][firstColumn - 1];
+            matrix[i][firstColumn - 1] = matrix[i][secondColumn - 1];
+            matrix[i][secondColumn - 1] = temp;
+        }
+        System.out.println("Новая матрица: ");
+        for (int i = 0; i < matrix.length; i++){
+            for (int j = 0; j < matrix[i].length; j++){
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println("");
+        }
+    }
+
+    public static void sumOfColumn(double[][] matrix){
+        for (double[] row : matrix){
+            for (double el : row){
+                if (el < 0){
+                    throw new IllegalArgumentException();
+                }
+            }
+        }
+        double[] sums = new double[matrix[0].length];
+        double max = sums[0];
+        for (int i = 0; i < matrix[0].length; i++){
+            for (int j = 0; j < matrix.length; j++){
+                sums[i] += matrix[j][i];
+            }
+            if (max < sums[i]){
+                max = sums[i];
+            }
+        }
+        System.out.println("Суммы:");
+        for (double el : sums){
+            System.out.println(el);
+        }
+        System.out.println("Максимальная сумма: " + max);
+    }
+
+    public static void positiveElOnDiagonal(){
+        double[][] matrix = new double[][]{{1, 2, 3, 4}, {2, -3, 4, 5}, {4, 5, 0, 1}, {6, 7, 8, 9}};
+        for (int i = 0, j = 0; i < matrix.length; i++, j++){
+            if (matrix[i][j] > 0){
+                System.out.println("Положительный элемент: " + matrix[i][j]);
+            }
+        }
+    }
+
+    public static void randomMatrix(){
+        int[][] matrix = new int[10][20];
+        for (int i = 0; i < matrix.length; i++){
+            int count = 0;
+            for(int j = 0; j < matrix[i].length; j++){
+                matrix[i][j] = new Random().nextInt(16);
+                if (matrix[i][j] == 5){
+                    count++;
+                }
+                System.out.print(matrix[i][j] + " ");
+            }
+            if (count >= 3){
+                System.out.print("(в этой строке (строка " + (i + 1) + ") число 5 встречается " + count + " раз(а))");
+            }
+            System.out.println("");
+        }
+    }
+
+    public static void sortRows(){
+        int[][] matrix = new int[][]{{4, 2, 5}, {2, 1, 6}, {3, 0, 7}};
+        for (int i = 0; i < matrix.length; i++){
+            for (int j = 0; j < matrix[i].length - 1; j++){
+                for (int k = matrix[i].length - 1; k > j; k--){
+                    if(matrix[i][k - 1] > matrix[i][k]){
+                        int temp = matrix[i][k - 1];
+                        matrix[i][k - 1] = matrix[i][k];
+                        matrix[i][k] = temp;
+                    }
+                }
+            }
+        }
+        System.out.println("По возрастанию: ");
+        for (int i = 0; i < matrix.length; i++){
+            for (int j = 0; j < matrix[i].length; j++){
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println("");
+        }
+        for (int i = 0; i < matrix.length; i++){
+            for (int j = 0; j < matrix[i].length - 1; j++){
+                for (int k = matrix[i].length - 1; k > j; k--){
+                    if(matrix[i][k - 1] < matrix[i][k]){
+                        int temp = matrix[i][k - 1];
+                        matrix[i][k - 1] = matrix[i][k];
+                        matrix[i][k] = temp;
+                    }
+                }
+            }
+        }
+        System.out.println("По убыванию: ");
+        for (int i = 0; i < matrix.length; i++){
+            for (int j = 0; j < matrix[i].length; j++){
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println("");
+        }
+    }
+
+    public static void sortColumns(){
+        int[][] matrix = new int[][]{{4, 2, 5}, {2, 1, 6}, {3, 0, 7}};
+        for (int i = 0; i < matrix[0].length; i++){
+            for (int j = 0; j < matrix.length - 1; j++){
+                for (int k = matrix.length - 1; k > j; k--){
+                    if(matrix[k - 1][i] > matrix[k][i]){
+                        int temp = matrix[k - 1][i];
+                        matrix[k - 1][i] = matrix[k][i];
+                        matrix[k][i] = temp;
+                    }
+                }
+            }
+        }
+        System.out.println("По возрастанию: ");
+        for (int i = 0; i < matrix.length; i++){
+            for (int j = 0; j < matrix[i].length; j++){
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println("");
+        }
+        for (int i = 0; i < matrix[0].length; i++){
+            for (int j = 0; j < matrix.length - 1; j++){
+                for (int k = matrix.length - 1; k > j; k--){
+                    if(matrix[k - 1][i] < matrix[k][i]){
+                        int temp = matrix[k - 1][i];
+                        matrix[k - 1][i] = matrix[k][i];
+                        matrix[k][i] = temp;
+                    }
+                }
+            }
+        }
+        System.out.println("По убыванию: ");
+        for (int i = 0; i < matrix.length; i++){
+            for (int j = 0; j < matrix[i].length; j++){
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println("");
+        }
+    }
+
+    public static void createRandomOneZeroMatrix(){
+        int n = new Random().nextInt(5) + 1;
+        int m = new Random().nextInt(n + 3) + n;
+        int[][] matrix = new int[m][n];
+        for (int i = 0; i < n; i++){
+            int count = i + 1;
+            while (count != 0){
+                int index = new Random().nextInt(m);
+                while (matrix[index][i] == 1){
+                    index = new Random().nextInt(m);
+                }
+                matrix[index][i] = 1;
+                count--;
+            }
+        }
+        for (int i = 0; i < matrix.length; i++){
+            for (int j = 0; j < matrix[i].length; j++){
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println("");
+        }
+    }
+
+    public static void changeOnMax(){
+        int[][] matrix = new int[][]{{4, 8, 5}, {2, 1, 6}, {3, 0, 7}};
+        int max = matrix[0][0];
+        for (int i = 0; i < matrix.length; i++){
+            for (int j = 0; j < matrix[i].length; j++){
+                if (max < matrix[i][j]){
+                    max = matrix[i][j];
+                }
+            }
+        }
+        for (int i = 0; i < matrix.length; i++){
+            for (int j = 0; j < matrix[i].length; j++){
+                if (matrix[i][j] % 2 != 0){
+                    matrix[i][j] = max;
+                }
+            }
+        }
+        for (int i = 0; i < matrix.length; i++){
+            for (int j = 0; j < matrix[i].length; j++){
                 System.out.print(matrix[i][j] + " ");
             }
             System.out.println("");
