@@ -48,6 +48,8 @@ public class SecondStepSolution {
         createRandomOneZeroMatrix();
         line();
         changeOnMax();
+        line();
+        createMagicalSquare(3);
     }
 
     public static int sum(int n, int k){
@@ -273,12 +275,7 @@ public class SecondStepSolution {
                 }
             }
         }
-        for (int i = 0; i < n; i++){
-            for (int j = 0; j < n; j++){
-                System.out.print(matrix[i][j] + " ");
-            }
-            System.out.println("");
-        }
+        printMatrix(matrix);
     }
 
     public static void createAnotherSquareMatrix(int n){
@@ -296,22 +293,12 @@ public class SecondStepSolution {
                 matrix[i][j] = i + 1 - zeros;
             }
         }
-        for (int i = 0; i < n; i++){
-            for (int j = 0; j < n; j++){
-                System.out.print(matrix[i][j] + " ");
-            }
-            System.out.println("");
-        }
+        printMatrix(matrix);
     }
 
     public static void changeColumns(){
         int[][] matrix = new int[][]{{1, 2, 3},{2, 3, 6},{7, 8, 9}};
-        for (int i = 0; i < matrix.length; i++){
-            for (int j = 0; j < matrix[i].length; j++){
-                System.out.print(matrix[i][j] + " ");
-            }
-            System.out.println("");
-        }
+        printMatrix(matrix);
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите номер первого столбца");
         int firstColumn = scanner.nextInt();
@@ -323,12 +310,7 @@ public class SecondStepSolution {
             matrix[i][secondColumn - 1] = temp;
         }
         System.out.println("Новая матрица: ");
-        for (int i = 0; i < matrix.length; i++){
-            for (int j = 0; j < matrix[i].length; j++){
-                System.out.print(matrix[i][j] + " ");
-            }
-            System.out.println("");
-        }
+        printMatrix(matrix);
     }
 
     public static void sumOfColumn(double[][] matrix){
@@ -397,12 +379,7 @@ public class SecondStepSolution {
             }
         }
         System.out.println("По возрастанию: ");
-        for (int i = 0; i < matrix.length; i++){
-            for (int j = 0; j < matrix[i].length; j++){
-                System.out.print(matrix[i][j] + " ");
-            }
-            System.out.println("");
-        }
+        printMatrix(matrix);
         for (int i = 0; i < matrix.length; i++){
             for (int j = 0; j < matrix[i].length - 1; j++){
                 for (int k = matrix[i].length - 1; k > j; k--){
@@ -415,12 +392,7 @@ public class SecondStepSolution {
             }
         }
         System.out.println("По убыванию: ");
-        for (int i = 0; i < matrix.length; i++){
-            for (int j = 0; j < matrix[i].length; j++){
-                System.out.print(matrix[i][j] + " ");
-            }
-            System.out.println("");
-        }
+        printMatrix(matrix);
     }
 
     public static void sortColumns(){
@@ -437,12 +409,7 @@ public class SecondStepSolution {
             }
         }
         System.out.println("По возрастанию: ");
-        for (int i = 0; i < matrix.length; i++){
-            for (int j = 0; j < matrix[i].length; j++){
-                System.out.print(matrix[i][j] + " ");
-            }
-            System.out.println("");
-        }
+        printMatrix(matrix);
         for (int i = 0; i < matrix[0].length; i++){
             for (int j = 0; j < matrix.length - 1; j++){
                 for (int k = matrix.length - 1; k > j; k--){
@@ -455,12 +422,7 @@ public class SecondStepSolution {
             }
         }
         System.out.println("По убыванию: ");
-        for (int i = 0; i < matrix.length; i++){
-            for (int j = 0; j < matrix[i].length; j++){
-                System.out.print(matrix[i][j] + " ");
-            }
-            System.out.println("");
-        }
+        printMatrix(matrix);
     }
 
     public static void createRandomOneZeroMatrix(){
@@ -478,12 +440,7 @@ public class SecondStepSolution {
                 count--;
             }
         }
-        for (int i = 0; i < matrix.length; i++){
-            for (int j = 0; j < matrix[i].length; j++){
-                System.out.print(matrix[i][j] + " ");
-            }
-            System.out.println("");
-        }
+        printMatrix(matrix);
     }
 
     public static void changeOnMax(){
@@ -503,6 +460,61 @@ public class SecondStepSolution {
                 }
             }
         }
+        printMatrix(matrix);
+    }
+
+    public static void createMagicalSquare(int n){
+        if (n <= 2){
+            throw new IllegalArgumentException("Магический квадрат порядка 2x2 или 1x1 построить нельзя");
+        }
+        int[][] matrix = new int[n][n];
+        if (n % 2 != 0){
+            int count = 1;
+            int i = 0;
+            int j = n / 2;
+            matrix[i][j] = count;
+            while (count < n*n){
+                if (i == 0){
+                    i = n - 1;
+                } else {
+                    i -= 1;
+                }
+                if (j == n - 1){
+                    j = 0;
+                } else {
+                    j += 1;
+                }
+                if (matrix[i][j] != 0){
+                    for (int k = 0; k < 2; k++) {
+                        if (i == n - 1) {
+                            i = 0;
+                        } else {
+                            i += 1;
+                        }
+                    }
+                    if (j == 0){
+                        j = n - 1;
+                    } else {
+                        j -= 1;
+                    }
+                }
+                count++;
+                matrix[i][j] = count;
+            }
+        }
+        printMatrix(matrix);
+    }
+
+    public static void printMatrix(int[][] matrix){
+        for (int i = 0; i < matrix.length; i++){
+            for (int j = 0; j < matrix[i].length; j++){
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println("");
+        }
+    }
+
+    public static void printMatrix(double[][] matrix){
         for (int i = 0; i < matrix.length; i++){
             for (int j = 0; j < matrix[i].length; j++){
                 System.out.print(matrix[i][j] + " ");
