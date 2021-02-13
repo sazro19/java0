@@ -49,7 +49,7 @@ public class SecondStepSolution {
         line();
         changeOnMax();
         line();
-        createMagicalSquare(3);
+        createMagicalSquare(10);
     }
 
     public static int sum(int n, int k){
@@ -467,42 +467,156 @@ public class SecondStepSolution {
         if (n <= 2){
             throw new IllegalArgumentException("Магический квадрат порядка 2x2 или 1x1 построить нельзя");
         }
-        int[][] matrix = new int[n][n];
         if (n % 2 != 0){
-            int count = 1;
-            int i = 0;
-            int j = n / 2;
-            matrix[i][j] = count;
-            while (count < n*n){
-                if (i == 0){
-                    i = n - 1;
-                } else {
-                    i -= 1;
-                }
-                if (j == n - 1){
-                    j = 0;
-                } else {
-                    j += 1;
-                }
-                if (matrix[i][j] != 0){
-                    for (int k = 0; k < 2; k++) {
-                        if (i == n - 1) {
-                            i = 0;
-                        } else {
-                            i += 1;
-                        }
-                    }
-                    if (j == 0){
-                        j = n - 1;
+            magicalSquareOdd(n);
+        }
+        if (n % 4 == 0){
+            magicalSquareDoubleEven(n);
+        }
+        if (n % 2 == 0 && n % 4 != 0){
+            magicalSquareSingleEven(n);
+        }
+    }
+
+    private static void magicalSquareOdd(int n){
+        int[][] matrix = new int[n][n];
+        int count = 1;
+        int i = 0;
+        int j = n / 2;
+        matrix[i][j] = count;
+        while (count < n*n){
+            if (i == 0){
+                i = n - 1;
+            } else {
+                i -= 1;
+            }
+            if (j == n - 1){
+                j = 0;
+            } else {
+                j += 1;
+            }
+            if (matrix[i][j] != 0){
+                for (int k = 0; k < 2; k++) {
+                    if (i == n - 1) {
+                        i = 0;
                     } else {
-                        j -= 1;
+                        i += 1;
                     }
                 }
-                count++;
-                matrix[i][j] = count;
+                if (j == 0){
+                    j = n - 1;
+                } else {
+                    j -= 1;
+                }
+            }
+            count++;
+            matrix[i][j] = count;
+        }
+        printMatrix(matrix);
+    }
+
+    private static void magicalSquareDoubleEven(int n){
+        int[][] matrix = new int[n][n];
+        int countUp = 0;
+        int countDown = n * n + 1;
+        for (int i = 0; i < n; i++){
+            for (int j = 0; j < n; j++){
+                countUp++;
+                countDown--;
+                if (((j < n / 4 || j >= n - n / 4) && (i < n / 4 || i >= n - n / 4)) ||
+                        ((j >= n / 4 && j < n - n / 4) && (i >= n / 4 && i < n - n / 4))){
+                    matrix[i][j] = countUp;
+                } else {
+                    matrix[i][j] = countDown;
+                }
             }
         }
         printMatrix(matrix);
+    }
+
+    private static void magicalSquareSingleEven(int n){
+        int[][] matrix = new int[n][n];
+        magicalSquareOdd(n / 2, 0, 0, matrix);
+        magicalSquareOdd(n / 2, n / 2, n / 2, matrix);
+        magicalSquareOdd(n / 2, n / 2, 0, matrix);
+        magicalSquareOdd(n / 2, 0, n / 2, matrix);
+        int[][] helpMatrix = new int[n][n];
+        for (int i = 0; i < n; i++){
+            for (int j = 0; j < n; j++){
+                if (i > (n - 1) / 2 && j > (n - 1) / 2) {
+                    helpMatrix[i][j] = (n * n) / 4;
+                }
+                if (i < n / 2 && j > (n - 1) / 2){
+                    helpMatrix[i][j] = (n * n) / 2;
+                }
+                if (i > (n - 1) / 2 && j < n / 2){
+                    helpMatrix[i][j] = (3 * n * n) / 4;
+                }
+            }
+        }
+        for (int i = 0, k = n - 1; i < k; i++, k--){
+            for (int j = 0; j < (n - 2) / 4; j++){
+                if (i == n / 4){
+                    continue;
+                }
+                helpMatrix[i][j] = helpMatrix[k][j];
+                helpMatrix[k][j] = 0;
+            }
+        }
+        for (int j = n / 4; j > 0; j--){
+            helpMatrix[n / 4][j] = helpMatrix[n / 4 + n / 2][j];
+            helpMatrix[n / 4 + n / 2][j] = 0;
+        }
+        for (int i = 0, k = n - 1; i < k; i++, k--){
+            for (int j = n - 1; j > n - ((n - 2) / 4); j--){
+                int temp = helpMatrix[i][j];
+                helpMatrix[i][j] = helpMatrix[k][j];
+                helpMatrix[k][j] = temp;
+            }
+        }
+
+        for (int i = 0; i < n; i++){
+            for (int j = 0; j < n; j++){
+                matrix[i][j] += helpMatrix[i][j];
+            }
+        }
+        printMatrix(matrix);
+    }
+
+    private static void magicalSquareOdd(int n, int iShift, int jShift, int[][] matrix){
+        int count = 1;
+        int board = count + (n * n - 1);
+        int i = iShift;
+        int j = n / 2 + jShift;
+        matrix[i][j] = count;
+        while (count < board){
+            if (i == iShift){
+                i = n - 1 + iShift;
+            } else {
+                i -= 1;
+            }
+            if (j == n - 1 + jShift){
+                j = jShift;
+            } else {
+                j += 1;
+            }
+            if (matrix[i][j] != 0){
+                for (int k = 0; k < 2; k++) {
+                    if (i == n - 1 + iShift) {
+                        i = iShift;
+                    } else {
+                        i += 1;
+                    }
+                }
+                if (j == jShift){
+                    j = n - 1 + jShift;
+                } else {
+                    j -= 1;
+                }
+            }
+            count++;
+            matrix[i][j] = count;
+        }
     }
 
     public static void printMatrix(int[][] matrix){
