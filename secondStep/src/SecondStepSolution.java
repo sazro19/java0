@@ -49,7 +49,18 @@ public class SecondStepSolution {
         line();
         changeOnMax();
         line();
-        createMagicalSquare(10);
+        createMagicalSquare(6);
+        line();
+        insertArray(new int[]{1, 2, 3, 4, 9}, new int[]{7, 3, 4, 5}, 3);
+        line();
+        nonDecreasing(new int[]{3, 3, 5}, new int[]{1, 2, 6, 7});
+        line();
+        sortByChoice(new int[]{1, 2, 2, 3, 5, 6});
+        line();
+        sortByExchanges(new int[]{3, 2, 4, 6, 1, 9});
+        line();
+        sortByInserts(new int[]{12, 0, 3, 1, 5, 30, 10});
+        line();
     }
 
     public static int sum(int n, int k){
@@ -619,6 +630,134 @@ public class SecondStepSolution {
         }
     }
 
+    public static void insertArray(int[] firstArray, int[] secondArray, int k){
+        if (firstArray.length <= 1 || k >= firstArray.length){
+            throw new IllegalArgumentException();
+        }
+        int[] resultArray = new int[firstArray.length + secondArray.length];
+        int resultIndex = 0;
+        for (int i = 0; i < firstArray.length; i++){
+            if (resultIndex == k + 1){
+                for (int j = 0; j < secondArray.length; j++){
+                    resultArray[resultIndex] = secondArray[j];
+                    resultIndex++;
+                }
+                i--;
+            } else {
+                resultArray[resultIndex] = firstArray[i];
+                resultIndex++;
+            }
+        }
+        printArray(resultArray);
+    }
+
+    public static void nonDecreasing(int[] firstArray, int[] secondArray){
+        for (int i = 1; i < firstArray.length; i++){
+            if (firstArray[i - 1] > firstArray[i]){
+                throw new IllegalArgumentException();
+            }
+        }
+        for (int i = 1; i < secondArray.length; i++){
+            if (secondArray[i - 1] > secondArray[i]){
+                throw new IllegalArgumentException();
+            }
+        }
+        int firstArrayIndex = 0;
+        int secondArrayIndex = 0;
+        int[] resultArray = new int[firstArray.length + secondArray.length];
+        for (int i = 0; i < resultArray.length; i++){
+            if (firstArray[firstArrayIndex] <= secondArray[secondArrayIndex]) {
+                resultArray[i] = firstArray[firstArrayIndex];
+                firstArrayIndex++;
+                if (firstArrayIndex == firstArray.length){
+                    firstArrayIndex--;
+                    firstArray[firstArrayIndex] = Integer.MAX_VALUE;
+                }
+            } else {
+                resultArray[i] = secondArray[secondArrayIndex];
+                secondArrayIndex++;
+                if (secondArrayIndex == secondArray.length){
+                    secondArrayIndex--;
+                    secondArray[secondArrayIndex] = Integer.MAX_VALUE;
+                }
+            }
+        }
+        printArray(resultArray);
+    }
+
+    public static void sortByChoice(int[] array){
+        for (int i = 0; i < array.length; i++){
+            int max = i;
+            for (int j = i + 1; j < array.length; j++){
+                if (array[j] > array[max]){
+                    max = j;
+                }
+            }
+            int temp = array[i];
+            array[i] = array[max];
+            array[max] = temp;
+        }
+        printArray(array);
+    }
+
+    public static void sortByExchanges(int[] array){
+        for (int i = 0; i < array.length; i++){
+            for (int j = 0; j < array.length - 1; j++){
+                if (array[j] > array[j + 1]){
+                    int temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
+                }
+            }
+        }
+        printArray(array);
+    }
+
+    public static void sortByInserts(int[] array){
+        for (int i = 1; i < array.length; i++){
+            if (array[i] < array[i - 1]){
+                int index = binarySearch(array, array[i], 0, i - 1);
+                int temp = array[i];
+                for (int j = i; j >= index; j--){
+                    if (j == 0){
+                        break;
+                    }
+                    array[j] = array[j - 1];
+                }
+                array[index] = temp;
+            }
+        }
+        printArray(array);
+    }
+
+    public static int binarySearch(int[] sortedArray, int key, int low, int high) {
+        int index = -1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (sortedArray[mid] < key) {
+                low = mid + 1;
+                if (sortedArray[low] > key){
+                    index = low;
+                    break;
+                }
+            } else if (sortedArray[mid] > key) {
+                high = mid - 1;
+                if (high == -1){
+                    index = 0;
+                    break;
+                }
+                if (sortedArray[high] < key){
+                    index = high + 1;
+                    break;
+                }
+            } else if (sortedArray[mid] == key) {
+                index = mid + 1;
+                break;
+            }
+        }
+        return index;
+    }
+
     public static void printMatrix(int[][] matrix){
         for (int i = 0; i < matrix.length; i++){
             for (int j = 0; j < matrix[i].length; j++){
@@ -626,6 +765,20 @@ public class SecondStepSolution {
             }
             System.out.println("");
         }
+    }
+
+    public static void printArray(int[] array){
+        for (int el : array){
+            System.out.print(el + " ");
+        }
+        System.out.println("");
+    }
+
+    public static void printArray(double[] array){
+        for (double el : array){
+            System.out.print(el + " ");
+        }
+        System.out.println("");
     }
 
     public static void printMatrix(double[][] matrix){
