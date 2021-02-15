@@ -61,6 +61,9 @@ public class SecondStepSolution {
         line();
         sortByInserts(new int[]{12, 0, 3, 1, 5, 30, 10});
         line();
+        shellSort(new double[]{3, 2, -5, 1, 4});
+        line();
+        placesToInsert(new double[]{1, 2, 3, 6, 8, 9}, new double[]{0, 4, 5, 7});
     }
 
     public static int sum(int n, int k){
@@ -756,6 +759,44 @@ public class SecondStepSolution {
             }
         }
         return index;
+    }
+
+    public static void shellSort(double[] array){
+        int i = 0;
+        while (i < array.length - 1){
+            if (array[i] <= array[i + 1]){
+                i++;
+            } else {
+                double temp = array[i];
+                array[i] = array[i + 1];
+                array[i + 1] = temp;
+                if (i != 0){
+                    i--;
+                }
+            }
+        }
+        printArray(array);
+    }
+
+    public static void placesToInsert(double[] firstArray, double[] secondArray) {
+        int k = 0;
+        for (int i = 0; i < secondArray.length; i++) {
+            for (int j = k; j <= firstArray.length; j++) {
+                if (j == firstArray.length){
+                    System.out.println(i + " элемент из второй последовательности на место " + (j - 1) + " из первой");
+                    break;
+                }
+                if (firstArray[j] >= secondArray[i]) {
+                    System.out.println(i + " элемент из второй последовательности на место " + j + " из первой");
+                    k = j + 1;
+                    break;
+                }
+                if ((i == secondArray.length - 1) && (j == firstArray.length - 1) && (firstArray[j] <= secondArray[i])) {
+                    System.out.println(i + " элемент из второй последовательности на место " + j + " из первой");
+                    break;
+                }
+            }
+        }
     }
 
     public static void printMatrix(int[][] matrix){
