@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class SecondStepSolution {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         System.out.println(ArraysPart.sum(10, 3));
         line();
         System.out.println(ArraysPart.changes(new double[]{0.1, 2, 3, 4.5}, 2));
@@ -26,11 +26,11 @@ public class SecondStepSolution {
         line();
         ArraysPart.compress(new int[]{1, 2, 3, 4, 5});
         line();
-        MatrixPart.oddColumns(new double[][]{{3, 2, 10},{5, 6, 3},{1, 4, 9}});
+        MatrixPart.oddColumns(new double[][]{{3, 2, 10}, {5, 6, 3}, {1, 4, 9}});
         line();
-        MatrixPart.diagonal(new double[][]{{3, 2, 10},{5, 6, 3},{1, 4, 9}});
+        MatrixPart.diagonal(new double[][]{{3, 2, 10}, {5, 6, 3}, {1, 4, 9}});
         line();
-        MatrixPart.printKP(new double[][]{{3, 2, 10},{5, 6, 3},{1, 4, 9}}, 2, 3);
+        MatrixPart.printKP(new double[][]{{3, 2, 10}, {5, 6, 3}, {1, 4, 9}}, 2, 3);
         line();
         MatrixPart.createSquareMatrix(6);
         line();
@@ -69,9 +69,25 @@ public class SecondStepSolution {
         SortPart.placesToInsert(new double[]{1, 2, 3, 6, 8, 9}, new double[]{0, 4, 5, 7});
         line();
         SortPart.commonDenominator(new int[]{1, 1, 3, 5}, new int[]{3, 4, 5, 6});
+        line();
+        System.out.println("НОД: " + MethodsPart.gcd(10, 15));
+        System.out.println("НОК: " + MethodsPart.lcm(10, 15));
+        line();
+        System.out.println("НОД 4 чисел: " + MethodsPart.gcd(7, 21, 42, 49));
+        line();
+        line();
+        MethodsPart.areaOfRegularHexagon(5);
+        line();
+        MethodsPart.maxDistanceBetweenDots(new double[][]{{1, 2}, {1, 3}, {0, 1}, {5, 4}});
+        line();
+        MethodsPart.findSecondMax(new double[]{1, 3, 9, 8, 10});
+        line();
+        MethodsPart.isCoprimeNumbers(10, 15, 20);
+        line();
+        MethodsPart.sumFactorials();
     }
 
-    public static void line(){
+    public static void line() {
         System.out.println("----------------------------------------------");
     }
 }
