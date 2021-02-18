@@ -85,6 +85,16 @@ public class SecondStepSolution {
         MethodsPart.isCoprimeNumbers(10, 15, 20);
         line();
         MethodsPart.sumFactorials();
+        line();
+        MethodsPart.sumOfThree(new int[]{1, 2, 3, 4, 5 ,6 ,7}, 4, 6);
+        line();
+        MethodsPart.areaOfQuadrangle(3, 4, 4, 6);
+        line();
+        MethodsPart.createArrayFromN(1377);
+        line();
+        MethodsPart.compareAmountOfFigures(1111, 2576);
+        line();
+        MethodsPart.createArrayFromKAndN(6, 15);
     }
 
     public static void line() {
