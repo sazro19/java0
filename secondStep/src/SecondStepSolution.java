@@ -95,6 +95,16 @@ public class SecondStepSolution {
         MethodsPart.compareAmountOfFigures(1111, 2576);
         line();
         MethodsPart.createArrayFromKAndN(6, 15);
+        line();
+        MethodsPart.printAllCoprimePairs(10);
+        line();
+        MethodsPart.armstrongNumbers(1000);
+        line();
+        MethodsPart.increaseFigures(2);
+        line();
+        MethodsPart.sumOfNumbersWithOddFig(2);
+        line();
+        MethodsPart.sumOfFig(51);
     }
 
     public static void line() {

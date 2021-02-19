@@ -171,4 +171,116 @@ public class MethodsPart {
         }
         SortPart.printArray(result);
     }
+
+    public static void printAllCoprimePairs(int n) {
+        if (n <= 2) {
+            throw new IllegalArgumentException();
+        }
+        for (int i = n; i <= 2 * n; i++) {
+            if (isPair(i, i + 2)) {
+                System.out.println(i + " " + (i + 2));
+            }
+        }
+    }
+
+    private static boolean isPair(int a, int b) {
+        return ArraysPart.isSimple(a) && ArraysPart.isSimple(b);
+    }
+
+    public static void armstrongNumbers(int k) {
+        for (int i = 1; i <= k; i++) {
+            if (isArmstrongNumber(i)) {
+                System.out.println(i);
+            }
+        }
+    }
+
+    private static boolean isArmstrongNumber(int number) {
+        int sum = 0;
+        int count = 0;
+        for (int i = number; i != 0; i /= 10) {
+            sum += i % 10;
+            count++;
+        }
+        return Math.pow(sum, count) == number;
+    }
+
+    public static void increaseFigures(int n) {
+        if (n == 1) {
+            throw new IllegalArgumentException();
+        }
+        int count = 1;
+        for (int i = 1; i < n; i++) {
+            count *= 10;
+        }
+        for (int i = count; i < count * 10; i++) {
+            if (isIncrease(i)) {
+                System.out.println(i);
+            }
+        }
+    }
+
+    private static boolean isIncrease(int number) {
+        int prev = number % 10;
+        for (int i = number / 10; i != 0; i /= 10) {
+            if (i % 10 >= prev) {
+                return false;
+            }
+            prev = i % 10;
+        }
+        return true;
+    }
+
+    public static void sumOfNumbersWithOddFig(int n) {
+        int count = 1;
+        for (int i = 1; i < n; i++) {
+            count *= 10;
+        }
+        int sum = 0;
+        for (int i = count; i < count * 10; i++) {
+            if (isOnlyOdd(i)) {
+                System.out.println(i);
+                sum += i;
+            }
+        }
+        System.out.println("Сумма: " + sum + ", количество четных цифр в ней: " + countEvenFig(sum));
+    }
+
+    private static boolean isOnlyOdd(int number) {
+        for (int i = number; i != 0; i /= 10) {
+            if ((i % 10) % 2 == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static int countEvenFig(int number) {
+        int count = 0;
+        for (int i = number; i != 0; i /= 10) {
+            if ((i % 10) % 2 == 0) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static void sumOfFig(int number) {
+        int count = 0;
+        count = sumOfFig(number, count);
+        System.out.println("Количество дейстивй: " + count);
+    }
+
+    private static int sumOfFig(int number, int count) {
+        if (number == 0) {
+            return count;
+        }
+        count++;
+        int sum = 0;
+        for (int i = number; i != 0; i /= 10) {
+            sum += i % 10;
+        }
+        System.out.println(number - sum);
+        return sumOfFig(number - sum, count);
+    }
 }

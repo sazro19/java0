@@ -94,7 +94,7 @@ public class ArraysPart {
         System.out.println(sum);
     }
 
-    private static boolean isSimple(double number) {
+    public static boolean isSimple(double number) {
         if (number == 1) {
             return false;
         }
