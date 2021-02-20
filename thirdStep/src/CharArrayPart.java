@@ -10,6 +10,8 @@ public class CharArrayPart {
         figuresAmount("abcdqwrzxfg015 43asfsdf2a0");
         line();
         numbersAmount("abdc01023s 15d_+- d34s");
+        line();
+        System.out.println(deleteSpaces("    abdc xzc      12f               f        "));
     }
 
     public static void toSnakeCase() {
@@ -71,7 +73,7 @@ public class CharArrayPart {
         int count = 0;
         for (int i = 0; i < s.length(); i++) {
             if (isFigure(s.charAt(i))) {
-                if (s.charAt(i) == '0'){
+                if (s.charAt(i) == '0') {
                     count++;
                     continue;
                 }
@@ -85,6 +87,32 @@ public class CharArrayPart {
             }
         }
         System.out.println(count);
+    }
+
+    public static String deleteSpaces(String s) {
+        String temp = "";
+        int start = 0;
+        while (s.charAt(start) == ' ') {
+            start++;
+        }
+        for (int i = start; i < s.length(); i++) {
+            if (s.charAt(i) == ' ') {
+                for (int j = i + 1; j < s.length(); j++) {
+                    if (s.charAt(j) != ' ') {
+                        temp += ' ';
+                        i = j;
+                        break;
+                    }
+                    if (j == s.length() - 1) {
+                        s = temp;
+                        return s;
+                    }
+                }
+            }
+            temp += s.charAt(i);
+        }
+        s = temp;
+        return s;
     }
 
     public static void line() {
