@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TextService {
@@ -23,13 +24,52 @@ public class TextService {
 
     public void sortParagraphs() {
         paragraphs.sort(Comparator.comparing(Paragraph::getSize));
+        for (Paragraph par : paragraphs) {
+            System.out.println(par.getSentences().toString());
+        }
+    }
+
+    public void sortWordsInSentences() {
+        for (Paragraph paragraph : paragraphs) {
+            paragraph.sortWords();
+        }
+    }
+
+    public void sortWordsByLetter(int paragraphNumber, int sentenceNumber, char letter) {
+        Pattern pattern = Pattern.compile("( )|(, )|(: )|( - )|(; )");
+        String[] sentence = pattern.split(paragraphs.get(paragraphNumber).getSentences().get(sentenceNumber));
+        for (int i = 0; i < sentence.length; i++) {
+            for (int j = 0; j < sentence.length - 1; j++) {
+                if (countLetter(sentence[j], letter) < countLetter(sentence[j + 1], letter)) {
+                    String temp = sentence[j];
+                    sentence[j] = sentence[j + 1];
+                    sentence[j + 1] = temp;
+                } else if (countLetter(sentence[j], letter) == countLetter(sentence[j + 1], letter)) {
+                    if (Character.toLowerCase(sentence[j].charAt(0)) > Character.toLowerCase(sentence[j + 1].charAt(0))) {
+                        String temp = sentence[j];
+                        sentence[j] = sentence[j + 1];
+                        sentence[j + 1] = temp;
+                    }
+                }
+            }
+        }
+        String result = "";
+        for (String s : sentence) {
+            result += s + " ";
+        }
+        System.out.println(result);
+        paragraphs.get(paragraphNumber).getSentences().set(sentenceNumber, result);
 
     }
 
-    public void sortSentences() {
-        for (int i = 0; i < paragraphs.size(); i++) {
-            paragraphs.get(i).sortWords();
+    private int countLetter(String string, char letter) {
+        Pattern pattern = Pattern.compile(String.valueOf(letter));
+        Matcher matcher = pattern.matcher(string);
+        int count = 0;
+        while (matcher.find()) {
+            count++;
         }
+        return count;
     }
 
     public List<Paragraph> getParagraphs() {
@@ -42,7 +82,7 @@ class Paragraph {
 
     private List<String> sentences = new ArrayList<>();
 
-    private int size;
+    private final int size;
 
     Paragraph(String par) {
         Pattern pattern = Pattern.compile("(\\. ?)|(\\? ?)|(\\! ?)|(\\.\\.\\. ?)");
@@ -63,6 +103,10 @@ class Paragraph {
             sentences.set(i, str);
             System.out.println(sentences.get(i));
         }
+    }
+
+    public void sortByLetter(int sentenceNumber, char letter) {
+
     }
 
     public List<String> getSentences() {
