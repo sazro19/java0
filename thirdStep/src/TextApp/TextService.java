@@ -71,11 +71,6 @@ public class TextService {
         }
         return count;
     }
-
-    public List<Paragraph> getParagraphs() {
-        return paragraphs;
-    }
-
 }
 
 class Paragraph {
@@ -103,10 +98,6 @@ class Paragraph {
             sentences.set(i, str);
             System.out.println(sentences.get(i));
         }
-    }
-
-    public void sortByLetter(int sentenceNumber, char letter) {
-
     }
 
     public List<String> getSentences() {
