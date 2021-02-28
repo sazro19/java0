@@ -1,9 +1,10 @@
 package SimpleClasses;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class SimpleClasses {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Test1 test1 = new Test1();
         test1.printVars();
         test1.setVar1(7);
@@ -49,9 +50,37 @@ public class SimpleClasses {
                 new Train("Berlin", 5, new Date())));
 
         Train.sortByNumber(trains);
-       // Train.printInfo(trains);
+        // Train.printInfo(trains);
         System.out.println("next");
         Train.sortByFinalPoint(trains);
+
+        line();
+
+        Counter counter1 = new Counter();
+        System.out.println(counter1.getCount());
+        Counter counter2 = new Counter(7);
+        System.out.println(counter2.getCount());
+        counter1.enlarge();
+        counter2.reduce();
+        System.out.println(counter1.getCount());
+        System.out.println(counter2.getCount());
+        int i = 0;
+        while (i < 5) {
+            counter2.enlarge();
+            i++;
+            System.out.println("enlarge in while loop: " + counter2.getCount());
+        }
+
+        line();
+
+        Time time = new Time();
+        time.printTime();
+        time.setHours(20);
+        time.setMinutes(40);
+        time.setSeconds(30);
+        time.printTime();
+        time.changeTimeOn(2, 10, 5);
+        time.printTime();
     }
 
     public static void line() {
