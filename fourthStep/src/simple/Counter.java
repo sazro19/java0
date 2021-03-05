@@ -1,4 +1,4 @@
-package SimpleClasses;
+package simple;
 
 public class Counter {
 

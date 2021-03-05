@@ -1,4 +1,4 @@
-package SimpleClasses;
+package simple;
 
 import java.util.Date;
 import java.util.regex.Matcher;

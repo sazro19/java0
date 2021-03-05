@@ -1,6 +1,4 @@
-package SimpleClasses.AirlineService;
-
-import SimpleClasses.BookService.Book;
+package simple.airline;
 
 import java.util.ArrayList;
 import java.util.Date;

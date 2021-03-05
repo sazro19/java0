@@ -1,4 +1,4 @@
-package SimpleClasses.BookService;
+package simple.book;
 
 import java.util.List;
 

@@ -1,10 +1,9 @@
-package SimpleClasses;
+package simple;
 
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 public class Train {
 

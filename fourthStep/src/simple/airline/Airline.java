@@ -1,6 +1,5 @@
-package SimpleClasses.AirlineService;
+package simple.airline;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 

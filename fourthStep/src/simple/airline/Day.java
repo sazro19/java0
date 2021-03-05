@@ -1,4 +1,4 @@
-package SimpleClasses.AirlineService;
+package simple.airline;
 
 public enum Day {
 

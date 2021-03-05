@@ -1,8 +1,4 @@
-package SimpleClasses.CustomerService;
-
-import SimpleClasses.SimpleClasses;
-
-import javax.swing.plaf.synth.ColorType;
+package simple.customer;
 
 public class Customer {
 

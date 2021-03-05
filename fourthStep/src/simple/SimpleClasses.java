@@ -1,13 +1,9 @@
-package SimpleClasses;
+package simple;
 
-import SimpleClasses.CustomerService.Customer;
-import SimpleClasses.CustomerService.CustomerList;
-
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class SimpleClasses {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         Test1 test1 = new Test1();
         test1.printVars();
         test1.setVar1(7);

@@ -1,4 +1,4 @@
-package SimpleClasses.CustomerService;
+package simple.customer;
 
 import java.util.ArrayList;
 import java.util.Comparator;
