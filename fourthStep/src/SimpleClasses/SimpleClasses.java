@@ -1,5 +1,8 @@
 package SimpleClasses;
 
+import SimpleClasses.CustomerService.Customer;
+import SimpleClasses.CustomerService.CustomerList;
+
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -81,6 +84,16 @@ public class SimpleClasses {
         time.printTime();
         time.changeTimeOn(2, 10, 5);
         time.printTime();
+
+        line();
+
+        Triangle triangle = new Triangle(new double[][]{{1, 2}, {2, 2}, {-2, -2}});
+        System.out.println(triangle.area() + ", " + triangle.perimeter() + ", " +
+                Arrays.toString(triangle.coordinatesOfMediansIntersection()));
+
+        line();
+
+
     }
 
     public static void line() {
