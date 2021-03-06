@@ -1,5 +1,7 @@
 package simple;
 
+import association.auto.Car;
+
 import java.util.*;
 
 public class SimpleClasses {
@@ -88,7 +90,6 @@ public class SimpleClasses {
                 Arrays.toString(triangle.coordinatesOfMediansIntersection()));
 
         line();
-
 
     }
 
