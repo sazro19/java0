@@ -1,6 +1,7 @@
 package association.bank;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 // TODO: 07.03.2021 sums, sorts??, sums pos ane neg
 
@@ -32,7 +33,7 @@ public class Bank {
 
     void addClients(Client... client) {
         for (Client cl : client) {
-            if (isClientExists(cl)) {
+            if (isClientExists(cl.getId())) {
                 System.out.println(Messages.CLIENT_IS_ALREADY_EXISTS_MESSAGE.getMessage());
             } else {
                 this.getClients().put(cl.getId(), cl);
@@ -40,60 +41,141 @@ public class Bank {
         }
     }
 
-    void openNewAccount(Client client) {
-        if (!isClientExists(client)) {
+    void openNewAccount(Integer clientId) {
+        if (!isClientExists(clientId)) {
             System.out.println(Messages.CLIENT_IS_NOT_EXISTING_MESSAGE.getMessage());
         } else {
-            BankAccount newAcc = newAccount(client);
-            client.getBankAccounts().put(newAcc.getId(), newAcc);
+            BankAccount newAcc = newAccount(clientId);
+            clients.get(clientId).getBankAccounts().put(newAcc.getId(), newAcc);
         }
     }
 
-    void blockAccount(Client client, BankAccount account) {
-        if (!isClientExists(client)) {
+    void blockAccount(Integer clientId, Integer accountId) {
+        if (!isClientExists(clientId)) {
             System.out.println(Messages.CLIENT_IS_NOT_EXISTING_MESSAGE.getMessage());
-        } else if (!isAccountExists(client, account)) {
+        } else if (!isAccountExists(clientId, accountId)) {
             System.out.println(Messages.ACCOUNT_IS_NOT_EXISTING_MESSAGE.getMessage());
         } else {
-            account.setActive(false);
+            clients.get(clientId).getBankAccounts().get(accountId).setActive(false);
         }
     }
 
-    void unblockAccount(Client client, BankAccount account) {
-        if (!isClientExists(client)) {
+    void unblockAccount(Integer clientId, Integer accountId) {
+        if (!isClientExists(clientId)) {
             System.out.println(Messages.CLIENT_IS_NOT_EXISTING_MESSAGE.getMessage());
-        } else if (!isAccountExists(client, account)) {
+        } else if (!isAccountExists(clientId, accountId)) {
             System.out.println(Messages.ACCOUNT_IS_NOT_EXISTING_MESSAGE.getMessage());
         } else {
-            account.setActive(true);
+            clients.get(clientId).getBankAccounts().get(accountId).setActive(true);
         }
     }
 
-    BankAccount findBankAccount(Client client, BankAccount account) {
-        if (!isClientExists(client)) {
+    BankAccount findBankAccount(Integer clientId, Integer accountId) {
+        if (!isClientExists(clientId)) {
             System.out.println(Messages.CLIENT_IS_NOT_EXISTING_MESSAGE.getMessage());
-        } else if (!isAccountExists(client, account)) {
+        } else if (!isAccountExists(clientId, accountId)) {
             System.out.println(Messages.ACCOUNT_IS_NOT_EXISTING_MESSAGE.getMessage());
         } else {
-            return client.getBankAccounts().get(account.getId());
+            if (clients.get(clientId).getBankAccounts().get(accountId).isActive()) {
+                return clients.get(clientId).getBankAccounts().get(accountId);
+            } else {
+                System.out.println(Messages.ACCOUNT_IS_BLOCKED.getMessage());
+            }
         }
         return null;
     }
 
-    private BankAccount newAccount(Client client) {
+    List<BankAccount> SortBankAccounts(Integer clientId) {
+        List<BankAccount> bankAccounts = new ArrayList<>();
+        for (Map.Entry<Integer, BankAccount> account : clients.get(clientId).getBankAccounts().entrySet()) {
+            if (account.getValue().isActive()) {
+                bankAccounts.add(account.getValue());
+            } else {
+                System.out.println(account.getKey() + " " + Messages.ACCOUNT_IS_BLOCKED.getMessage());
+            }
+        }
+        bankAccounts.sort(Comparator.comparing(BankAccount::getBalance));
+        return bankAccounts;
+    }
+
+    double sumOnAllAccounts(Integer clientId) {
+        if (!isClientExists(clientId)) {
+            System.out.println(Messages.CLIENT_IS_NOT_EXISTING_MESSAGE.getMessage());
+            return Double.MIN_VALUE;
+        } else {
+            double sum = 0;
+            for (Map.Entry<Integer, BankAccount> account : clients.get(clientId).getBankAccounts().entrySet()) {
+                if (account.getValue().isActive()) {
+                    sum += account.getValue().getBalance();
+                } else {
+                    System.out.println(account.getKey() + " " + Messages.ACCOUNT_IS_BLOCKED.getMessage());
+                }
+            }
+            return sum;
+        }
+    }
+
+    double sumOnPosAcc(Integer clientId) {
+        if (!isClientExists(clientId)) {
+            System.out.println(Messages.CLIENT_IS_NOT_EXISTING_MESSAGE.getMessage());
+            return Double.MIN_VALUE;
+        } else {
+            double sum = 0;
+            for (Map.Entry<Integer, BankAccount> account : clients.get(clientId).getBankAccounts().entrySet()) {
+                if (account.getValue().isActive()) {
+                    if (account.getValue().getBalance() > 0) {
+                        sum += account.getValue().getBalance();
+                    }
+                } else {
+                    System.out.println(account.getKey() + " " + Messages.ACCOUNT_IS_BLOCKED.getMessage());
+                }
+            }
+            return sum;
+        }
+    }
+
+    double sumOnNegAcc(Integer clientId) {
+        if (!isClientExists(clientId)) {
+            System.out.println(Messages.CLIENT_IS_NOT_EXISTING_MESSAGE.getMessage());
+            return Double.MIN_VALUE;
+        } else {
+            double sum = 0;
+            for (Map.Entry<Integer, BankAccount> account : clients.get(clientId).getBankAccounts().entrySet()) {
+                if (account.getValue().isActive()) {
+                    if (account.getValue().getBalance() < 0) {
+                        sum += account.getValue().getBalance();
+                    }
+                } else {
+                    System.out.println(account.getKey() + " " + Messages.ACCOUNT_IS_BLOCKED.getMessage());
+                }
+            }
+            return sum;
+        }
+    }
+
+    void upBalance(Integer clientId, Integer accountId, double sum) {
+        if (clients.get(clientId).getBankAccounts().get(accountId).isActive()) {
+            double s = clients.get(clientId).getBankAccounts().get(accountId).getBalance();
+            clients.get(clientId).getBankAccounts().get(accountId).setBalance(s + sum);
+        } else {
+            System.out.println(Messages.ACCOUNT_IS_BLOCKED.getMessage());
+        }
+    }
+
+    private BankAccount newAccount(Integer clientId) {
         Random random = new Random();
         int id = random.nextInt(1000001) + 1;
-        while (this.getClients().get(client.getId()).getBankAccounts().containsKey(id)) {
+        while (this.getClients().get(clientId).getBankAccounts().containsKey(id)) {
             id = random.nextInt(1000001) + 1;
         }
         return new BankAccount(id, 0);
     }
 
-    private boolean isClientExists(Client client) {
-        return this.getClients().containsKey(client.getId());
+    private boolean isClientExists(Integer clientId) {
+        return this.getClients().containsKey(clientId);
     }
 
-    private boolean isAccountExists(Client client, BankAccount bankAccount) {
-        return this.getClients().get(client.getId()).getBankAccounts().containsKey(bankAccount.getId());
+    private boolean isAccountExists(Integer clientId, Integer bankAccountId) {
+        return this.getClients().get(clientId).getBankAccounts().containsKey(bankAccountId);
     }
 }

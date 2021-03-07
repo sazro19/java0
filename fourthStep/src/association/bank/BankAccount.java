@@ -8,7 +8,7 @@ public class BankAccount {
 
     private double balance;
 
-    private boolean isActive;
+    private boolean isActive = true;
 
     BankAccount(int id, double balance) {
         this.id = id;
