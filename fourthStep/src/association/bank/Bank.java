@@ -3,8 +3,6 @@ package association.bank;
 import java.util.*;
 import java.util.regex.Pattern;
 
-// TODO: 07.03.2021 sums, sorts??, sums pos ane neg
-
 public class Bank {
 
     private String name;
