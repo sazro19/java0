@@ -9,6 +9,7 @@ public class VoucherService {
 
     private List<Voucher> voucherList = new ArrayList<>();
 
+    private List<Voucher> chosenVoucherList = new ArrayList<>();
 
     public VoucherService(List<Voucher> voucherList) {
         this.voucherList = voucherList;
@@ -42,5 +43,19 @@ public class VoucherService {
         List<Voucher> result = voucherList;
         result.sort(Comparator.comparing(Voucher::getIntDays));
         return result;
+    }
+
+    public void chooseVoucher(Voucher voucher) {
+        if (voucherList.contains(voucher)) {
+            chosenVoucherList.add(voucher);
+            voucherList.remove(voucher);
+            System.out.println("Voucher has been chosen");
+        } else {
+            if (chosenVoucherList.contains(voucher)){
+                System.out.println("Sorry, this voucher has already been chosen");
+            } else {
+                System.out.println("Sorry, voucher has not exists");
+            }
+        }
     }
 }

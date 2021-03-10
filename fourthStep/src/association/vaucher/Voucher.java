@@ -1,5 +1,7 @@
 package association.vaucher;
 
+import java.util.Objects;
+
 public class Voucher {
 
     private Type type;
@@ -35,5 +37,19 @@ public class Voucher {
 
     public int getIntDays() {
         return days.getDays();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Voucher voucher = (Voucher) o;
+        return type == voucher.type && transport.equals(voucher.transport) &&
+                food.equals(voucher.food) && days.equals(voucher.days);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, transport, food, days);
     }
 }
