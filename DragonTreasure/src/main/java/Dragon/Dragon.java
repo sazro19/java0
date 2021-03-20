@@ -7,4 +7,8 @@ public abstract class Dragon {
     protected int level;
 
     protected abstract int calcDangerousLevel(int level);
+
+    public int getLevel() {
+        return level;
+    }
 }
