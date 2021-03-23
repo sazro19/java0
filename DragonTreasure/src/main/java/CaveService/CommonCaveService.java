@@ -18,7 +18,7 @@ public class CommonCaveService implements CaveService {
 
     public class Cave {
 
-        private static final int MAX_JEWEL = 100;
+        private static final int JEWELS_AMOUNT = 100;
 
         private final Dragon dragon;
 
@@ -38,11 +38,17 @@ public class CommonCaveService implements CaveService {
             FileReader reader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(reader);
             long count = 0;
-            while (count <= MAX_JEWEL) {
+            while (true) {
                 String line = bufferedReader.readLine();
+                if (line == null) {
+                    break;
+                }
                 String[] args = line.split(" ");
                 jewelList.add(new Jewel(args[0], Double.parseDouble(args[1]) * dragon.getLevel()));
                 count++;
+            }
+            if (count != JEWELS_AMOUNT) {
+                throw new IllegalArgumentException("Invalid jewels number");
             }
         }
     }
@@ -72,6 +78,10 @@ public class CommonCaveService implements CaveService {
                 break;
             }
             jewelsOnSum.add(jewel);
+        }
+        if (jewelsOnSum.isEmpty() || sumCounter < sum) {
+            System.out.println("There aren't jewels on this sum");
+            return null;
         }
         return jewelsOnSum;
     }

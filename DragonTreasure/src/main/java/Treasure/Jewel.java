@@ -18,4 +18,9 @@ public class Jewel {
     public double getCost() {
         return cost;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
